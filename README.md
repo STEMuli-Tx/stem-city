@@ -33,6 +33,8 @@ This package includes a basic template for a 3D city builder in Godot 4.3 (stabl
 
 ATTRIBUTE
 "Power Plant" (https://skfb.ly/6vZoR) by Romain PERRONE is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+building placing.wav by strange_dragoon -- https://freesound.org/s/271141/ -- License: Attribution 3.0
+building construct p2.wav by strange_dragoon -- https://freesound.org/s/271135/ -- License: Attribution 3.0
 
 MIT License
 

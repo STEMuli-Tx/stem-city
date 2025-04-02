@@ -1,6 +1,7 @@
-[gd_scene load_steps=26 format=3 uid="uid://vgwrcfy1qawf"]
+[gd_scene load_steps=31 format=3 uid="uid://vgwrcfy1qawf"]
 
 [ext_resource type="Script" path="res://scripts/builder.gd" id="1_jybm7"]
+[ext_resource type="PackedScene" uid="uid://df3hdbidgllw5" path="res://scenes/tutorial_manager_scene.tscn" id="1_tutorial"]
 [ext_resource type="Environment" uid="uid://jbptgqvstei3" path="res://scenes/main-environment.tres" id="1_yndf3"]
 [ext_resource type="Script" path="res://scripts/structure.gd" id="2_54v6r"]
 [ext_resource type="Resource" uid="uid://dv14kkhb6umkv" path="res://structures/road-straight.tres" id="2_bwyku"]
@@ -21,6 +22,10 @@
 [ext_resource type="PackedScene" uid="uid://cgk66f6rg03mj" path="res://scenes/hud.tscn" id="18_hud"]
 [ext_resource type="PackedScene" uid="uid://bqjnp7uypupog" path="res://scenes/controls_panel.tscn" id="19_controls"]
 [ext_resource type="Script" path="res://scripts/game_manager.gd" id="20_game_manager"]
+[ext_resource type="PackedScene" uid="uid://ca5j4qcpekpwh" path="res://scenes/tutorial_tooltips/mission_panel_tooltip.tscn" id="mission_tooltip"]
+[ext_resource type="PackedScene" uid="uid://dvsnxxdtwrljq" path="res://scenes/tutorial_tooltips/stats_panel_tooltip.tscn" id="stats_tooltip"]
+[ext_resource type="PackedScene" uid="uid://bxv4hvwgdovsl" path="res://scenes/tutorial_tooltips/electricity_tooltip.tscn" id="electricity_tooltip"]
+[ext_resource type="PackedScene" uid="uid://bkgv5s7pnynir" path="res://scenes/tutorial_tooltips/help_button_tooltip.tscn" id="help_tooltip"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mission"]
 bg_color = Color(0.145098, 0.172549, 0.231373, 0.941176)
@@ -118,6 +123,12 @@ shadow_opacity = 0.75
 
 [node name="HUD" parent="CanvasLayer" instance=ExtResource("18_hud")]
 
+[node name="Tooltip" parent="CanvasLayer/HUD/HBoxContainer" instance=ExtResource("stats_tooltip")]
+
+[node name="Tooltip" parent="CanvasLayer/HUD/HBoxContainer/ElectricityItem" instance=ExtResource("electricity_tooltip")]
+
+[node name="Tooltip" parent="CanvasLayer/HUD/HBoxContainer/HelpItem/HelpButton" instance=ExtResource("help_tooltip")]
+
 [node name="ControlsPanel" parent="CanvasLayer" instance=ExtResource("19_controls")]
 
 [node name="MissionManager" type="Node" parent="." node_paths=PackedStringArray("mission_ui", "builder")]
@@ -141,6 +152,8 @@ script = ExtResource("13_xvw5w")
 mission_title_label = NodePath("MarginContainer/VBoxContainer/MissionTitleLabel")
 mission_description_label = NodePath("MarginContainer/VBoxContainer/MissionDescriptionLabel")
 objectives_container = NodePath("MarginContainer/VBoxContainer/ObjectivesContainer")
+
+[node name="Tooltip" parent="MissionManager/MissionPanel" instance=ExtResource("mission_tooltip")]
 
 [node name="MarginContainer" type="MarginContainer" parent="MissionManager/MissionPanel"]
 layout_mode = 2
@@ -307,5 +320,7 @@ text = "Complete"
 [node name="ObjectiveLabel" type="Label" parent="MissionManager"]
 offset_right = 40.0
 offset_bottom = 23.0
+
+[node name="TutorialManagerScene" parent="." instance=ExtResource("1_tutorial")]
 
 [connection signal="pressed" from="MissionManager/LearningPanel/MarginContainer/VBoxContainer/HBoxContainer/CompleteButton" to="MissionManager/LearningPanel" method="_on_complete_button_pressed"]
