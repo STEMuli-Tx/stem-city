@@ -1,0 +1,9 @@
+[gd_scene load_steps=4 format=3 uid="uid://w1q63umv6j5x"]
+
+[ext_resource type="Script" path="res://scripts/mission/tutorial_manager.gd" id="1_2v5e5"]
+[ext_resource type="Resource" uid="uid://db2p8bt3vtsxu" path="res://tutorials/welcome_tutorial.tres" id="2_8iw64"]
+[ext_resource type="Script" path="res://scripts/mission/tutorial_data.gd" id="2_gdfrt"]
+
+[node name="TutorialManager" type="Node"]
+script = ExtResource("1_2v5e5")
+tutorials = Array[ExtResource("2_gdfrt")]([ExtResource("2_8iw64")])

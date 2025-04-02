@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://df3hdbidgllw5"]
+
+[ext_resource type="Script" path="res://scripts/mission/tutorial_manager_scene.gd" id="1_k3hde"]
+[ext_resource type="Resource" path="res://tutorials/welcome_tutorial.tres" id="2_8iw64"]
+[ext_resource type="PackedScene" uid="uid://bv1qrbg3yidm1" path="res://scenes/tutorial_modal.tscn" id="3_hwkx6"]
+
+[node name="TutorialManager" type="Node"]
+script = ExtResource("1_k3hde")
+tutorials = Array[Resource("res://scripts/mission/tutorial_data.gd")]([ExtResource("2_8iw64")])
+active_on_start = true
+
+[node name="TutorialLayer" type="CanvasLayer" parent="."]
+layer = 10
+
+[node name="TutorialModal" parent="TutorialLayer" instance=ExtResource("3_hwkx6")]
+visible = false

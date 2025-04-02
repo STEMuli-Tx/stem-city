@@ -1,0 +1,62 @@
+[gd_scene load_steps=3 format=3 uid="uid://bcky62i2ypxal"]
+
+[ext_resource type="Script" path="res://scripts/mission/tutorial_tooltip.gd" id="1_p2ito"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gdlk5"]
+bg_color = Color(0.15, 0.15, 0.25, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.376, 0.760, 0.658, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="TutorialTooltip" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 250.0
+offset_bottom = 80.0
+mouse_filter = 2
+script = ExtResource("1_p2ito")
+metadata/_edit_group_ = true
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_gdlk5")
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Label" type="Label" parent="Panel/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 16
+text = "This is a tutorial tooltip that explains a UI element."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Pointer" type="Polygon2D" parent="."]
+position = Vector2(125, 80)
+color = Color(0.376, 0.760, 0.658, 1)
+polygon = PackedVector2Array(0, 0, 20, 0, 10, 15)

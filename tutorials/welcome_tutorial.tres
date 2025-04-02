@@ -1,0 +1,60 @@
+[gd_resource type="Resource" script_class="TutorialData" load_steps=8 format=3 uid="uid://db2p8bt3vtsxu"]
+
+[ext_resource type="Script" path="res://scripts/mission/tutorial_data.gd" id="1_ejvnl"]
+[ext_resource type="Script" path="res://scripts/mission/tutorial_step.gd" id="2_84yw1"]
+
+[sub_resource type="Resource" id="Resource_welcome1"]
+script = ExtResource("2_84yw1")
+type = 0
+message = "Welcome to Stem City! Let's get you familiar with the game interface so you can start building your city."
+target_node_path = ""
+position_offset = Vector2(0, 0)
+wait_for_input = true
+objective_type = -1
+required_count = 1
+
+[sub_resource type="Resource" id="Resource_welcome2"]
+script = ExtResource("2_84yw1")
+type = 1
+message = "Your mission objectives will appear here. Complete these to progress through the game."
+target_node_path = "/root/Main/MissionManager/MissionPanel"
+position_offset = Vector2(0, 0)
+wait_for_input = true
+objective_type = -1
+required_count = 1
+
+[sub_resource type="Resource" id="Resource_welcome3"]
+script = ExtResource("2_84yw1")
+type = 1
+message = "This is your stats panel. Here you can see your city's money, population count, and electricity status."
+target_node_path = "/root/Main/CanvasLayer/HUD/HBoxContainer"
+position_offset = Vector2(0, 50)
+wait_for_input = true
+objective_type = -1
+required_count = 1
+
+[sub_resource type="Resource" id="Resource_welcome4"]
+script = ExtResource("2_84yw1")
+type = 1
+message = "The electricity meter will show GREEN when you have enough power or RED if there's a shortage."
+target_node_path = "/root/Main/CanvasLayer/HUD/HBoxContainer/ElectricityItem"
+position_offset = Vector2(0, 30)
+wait_for_input = true
+objective_type = -1
+required_count = 1
+
+[sub_resource type="Resource" id="Resource_welcome5"]
+script = ExtResource("2_84yw1")
+type = 1
+message = "Click this help button anytime you need assistance with the game controls."
+target_node_path = "/root/Main/CanvasLayer/HUD/HBoxContainer/HelpItem/HelpButton"
+position_offset = Vector2(0, 30)
+wait_for_input = true
+objective_type = -1
+required_count = 1
+
+[resource]
+script = ExtResource("1_ejvnl")
+id = "welcome"
+title = "Welcome to Stem City"
+steps = Array[ExtResource("2_84yw1")]([SubResource("Resource_welcome1"), SubResource("Resource_welcome2"), SubResource("Resource_welcome3"), SubResource("Resource_welcome4"), SubResource("Resource_welcome5")])

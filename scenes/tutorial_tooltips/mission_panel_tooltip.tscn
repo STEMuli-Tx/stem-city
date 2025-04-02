@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://ca5j4qcpekpwh"]
+
+[ext_resource type="PackedScene" uid="uid://bcky62i2ypxal" path="res://scenes/tutorial_tooltip.tscn" id="1_yl85j"]
+[ext_resource type="Script" path="res://scripts/mission/tutorial_tooltip.gd" id="2_nyw81"]
+
+[node name="Tooltip" instance=ExtResource("1_yl85j")]
+offset_left = -320.0
+offset_top = 20.0
+offset_right = -70.0
+offset_bottom = 120.0
+script = ExtResource("2_nyw81")
+message = "Your mission objectives will appear here. Complete these to progress through the game."
+pointer_position = Vector2(320, 50)
+pointer_direction = "right"

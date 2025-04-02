@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://bxv4hvwgdovsl"]
+
+[ext_resource type="PackedScene" uid="uid://bcky62i2ypxal" path="res://scenes/tutorial_tooltip.tscn" id="1_a6bqe"]
+[ext_resource type="Script" path="res://scripts/mission/tutorial_tooltip.gd" id="2_y71s0"]
+
+[node name="Tooltip" instance=ExtResource("1_a6bqe")]
+offset_left = 290.0
+offset_top = 84.0
+offset_right = 540.0
+offset_bottom = 164.0
+script = ExtResource("2_y71s0")
+message = "The electricity meter will show GREEN when you have enough power or RED if there's a shortage."
+pointer_position = Vector2(125, 0)
+pointer_direction = "up"

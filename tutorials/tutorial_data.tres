@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Resource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/mission/tutorial_data.gd" id="1_34muc"]
+
+[resource]
+script = ExtResource("1_34muc")
+welcome_message = "Welcome to Stem City! Let's learn how to play the game."
+ui_tooltips = {
+"mission_panel": "Your mission objectives will appear here. Complete these to progress through the game.",
+"electricity": "The electricity meter will show GREEN when you have enough power or RED if there's a shortage.",
+"population": "This counter shows the current population of your city.",
+"money": "This shows your available funds for building and expanding your city.",
+"help_button": "Click this help button anytime you need assistance with the game controls."
+}
