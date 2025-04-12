@@ -1,23 +1,14 @@
-[gd_resource type="Resource" script_class="MissionData" load_steps=4 format=3 uid="uid://p3xwn2mp6bm6"]
+[gd_resource type="Resource" script_class="MissionData" load_steps=3 format=3 uid="uid://p3xwn2mp6bm6"]
 
 [ext_resource type="Script" path="res://resource/mission_data.resource.gd" id="1_dhx01"]
-[ext_resource type="Script" path="res://resource/mission_data.resource.gd" id="2_mum3p"]
-
-[sub_resource type="Resource" id="Resource_c06be"]
-script = ExtResource("1_dhx01")
-type = 7
-target_count = 1
-current_count = 0
-description = "Calculate how many power plants are needed to supply electricity to 40 houses."
-structure_index = -1
-completed = false
+[ext_resource type="Script" path="res://resource/mission_objective.resource.gd" id="1_kl835"]
 
 [resource]
-script = ExtResource("2_mum3p")
+script = ExtResource("1_dhx01")
 id = "4"
 title = "Residential Energy Usage"
 description = ""
-objectives = Array[ExtResource("1_dhx01")]([SubResource("Resource_c06be")])
+objectives = Array[ExtResource("1_kl835")]([])
 rewards = {
 "cash": 0
 }

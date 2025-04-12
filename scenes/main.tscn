@@ -1,10 +1,17 @@
-[gd_scene load_steps=19 format=3 uid="uid://vgwrcfy1qawf"]
+[gd_scene load_steps=26 format=3 uid="uid://vgwrcfy1qawf"]
 
 [ext_resource type="Script" path="res://scripts/builder.gd" id="1_jybm7"]
 [ext_resource type="Environment" uid="uid://jbptgqvstei3" path="res://scenes/main-environment.tres" id="1_yndf3"]
+[ext_resource type="Script" path="res://resource/structure.resource.gd" id="3_bp8hl"]
 [ext_resource type="Script" path="res://scripts/construction_worker_manager.gd" id="4_1yf77"]
 [ext_resource type="Texture2D" uid="uid://cbk07cxgshg26" path="res://sprites/selector.png" id="4_wr1wv"]
+[ext_resource type="Resource" uid="uid://cntgl86ianngh" path="res://structures/building-small-a.tres" id="4_x1e2t"]
+[ext_resource type="Resource" uid="uid://ccb475jeg7ym5" path="res://structures/grass-trees.tres" id="5_fc07b"]
+[ext_resource type="Resource" uid="uid://tm532uesguhk" path="res://structures/grass.tres" id="6_jiomw"]
+[ext_resource type="Resource" uid="uid://c4qbn3d85prxx" path="res://structures/power-plant.tres" id="7_cbh2v"]
+[ext_resource type="Resource" uid="uid://dv14kkhb6umkv" path="res://structures/road-straight.tres" id="8_5gsyq"]
 [ext_resource type="Script" path="res://scripts/view.gd" id="8_yovpv"]
+[ext_resource type="Resource" uid="uid://d2jplegnkl6u2" path="res://structures/road-corner.tres" id="9_x1lce"]
 [ext_resource type="Script" path="res://scripts/mission/mission_manager.gd" id="10_oe3re"]
 [ext_resource type="Script" path="res://scripts/mission/mission_ui.gd" id="13_xvw5w"]
 [ext_resource type="Script" path="res://scripts/mission/learning_panel.gd" id="14_q2ymb"]
@@ -70,8 +77,14 @@ corner_radius_bottom_left = 4
 [node name="Main" type="Node3D"]
 script = ExtResource("20_game_manager")
 
-[node name="Builder" type="Node3D" parent="."]
+[node name="Builder" type="Node3D" parent="." node_paths=PackedStringArray("selector", "selector_container", "view_camera", "gridmap")]
 script = ExtResource("1_jybm7")
+structures = Array[ExtResource("3_bp8hl")]([ExtResource("4_x1e2t"), ExtResource("5_fc07b"), ExtResource("6_jiomw"), ExtResource("7_cbh2v"), ExtResource("8_5gsyq"), ExtResource("9_x1lce")])
+selector = NodePath("Selector")
+selector_container = NodePath("Selector/Container")
+view_camera = NodePath("../View/Camera")
+gridmap = NodePath("../GridMap")
+cash_display = NodePath("HBoxContainer/CashItem/CashLabel")
 
 [node name="Selector" type="Node3D" parent="Builder"]
 
