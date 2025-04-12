@@ -1,7 +1,8 @@
 extends Node
+class_name BuildingConstructionManager
 
 # Signals
-signal construction_completed(position,structure : Structure)
+signal construction_completed(position, structure )
 signal worker_construction_started
 signal worker_construction_ended
 
@@ -47,6 +48,9 @@ func start_construction(position: Vector3, structure_index: int, rotation_basis 
 	if position in construction_sites:
 		return
 		
+		
+	print('test')
+	
 	# Get the current selector rotation if available
 	var rotation_index = 0
 	if builder and builder.selector:
@@ -325,7 +329,7 @@ func _complete_construction(position: Vector3):
 				if child.has_node("CanvasLayer/HUD"):
 					hud = child.get_node("CanvasLayer/HUD")
 					break
-	var structure = builder.structures[site["structure_index"]]
+	
 	# Last resort - try to find using builder's cash_display
 	if not hud and builder and builder.cash_display:
 		var parent = builder.cash_display.get_parent()
@@ -334,9 +338,10 @@ func _complete_construction(position: Vector3):
 				hud = parent
 				break
 			parent = parent.get_parent() 
- 		
-
-		if hud and site["structure_index"] >= 0 and site["structure_index"] < builder.structures.size() && structure.type == Structure.StructureType.RESIDENTIAL_BUILDING and structure.population_count > 0:
+	
+	var structure = builder.structures[site["structure_index"]]
+	
+	if hud and site["structure_index"] >= 0 and site["structure_index"] < builder.structures.size() && structure.type == Structure.StructureType.RESIDENTIAL_BUILDING and structure.population_count > 0:
 			_on_update_population(structure.population_count)
 	
 	# Emit completion signal

@@ -47,7 +47,7 @@ func _ready():
 		builder.structure_placed.connect(_on_structure_placed)
 		
 	# Connect to construction signals via deferred call to make sure everything is ready
-	call_deferred("_setup_construction_signals")
+	_setup_construction_signals()
 	
 	# Make sure sound buses are properly configured
 	call_deferred("_setup_sound_buses")

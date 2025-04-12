@@ -1243,3 +1243,7 @@ func _force_learning_companion_connection():
 		# Send initial event if we've already started
 		if current_mission:
 			_on_mission_started_for_companion(current_mission)
+
+
+func _on_construction_worker_manager_construction_completed(position: Variant, structure: Variant) -> void:
+	pass # Replace with function body.
