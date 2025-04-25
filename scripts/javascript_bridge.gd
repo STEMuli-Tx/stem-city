@@ -335,6 +335,80 @@ class JavaScriptGlobal:
 			js.eval(script)
 		else:
 			print("JavaScriptBridge singleton not available")
+			
+	# Open a React graph component with mission data
+	static func openReactGraph(mission_data: Dictionary):
+		if not OS.has_feature("web"):
+			return false
+			
+		print("Opening React graph for mission: " + str(mission_data.get("id", "unknown")))
+		var mission_json = JSON.stringify(mission_data)
+		var script = """
+		(function() {
+			try {
+				if (window.parent) {
+					console.log('Sending openReactGraph message to parent window');
+					window.parent.postMessage({ 
+						type: 'stemCity_openReactGraph',
+						data: %s,
+						source: 'godot-game',
+						timestamp: Date.now()
+					}, '*');
+					return true;
+				} else {
+					console.log('No parent window found for openReactGraph');
+					return false;
+				}
+			} catch (e) {
+				console.error('Error sending openReactGraph via postMessage:', e);
+				return false;
+			}
+		})();
+		""" % mission_json
+		
+		if Engine.has_singleton("JavaScriptBridge"):
+			var js = Engine.get_singleton("JavaScriptBridge")
+			return js.eval(script)
+		else:
+			print("JavaScriptBridge singleton not available")
+			return false
+			
+	# Open a React table component with mission data
+	static func openReactTable(mission_data: Dictionary):
+		if not OS.has_feature("web"):
+			return false
+			
+		print("Opening React table for mission: " + str(mission_data.get("id", "unknown")))
+		var mission_json = JSON.stringify(mission_data)
+		var script = """
+		(function() {
+			try {
+				if (window.parent) {
+					console.log('Sending openReactTable message to parent window');
+					window.parent.postMessage({ 
+						type: 'stemCity_openReactTable',
+						data: %s,
+						source: 'godot-game',
+						timestamp: Date.now()
+					}, '*');
+					return true;
+				} else {
+					console.log('No parent window found for openReactTable');
+					return false;
+				}
+			} catch (e) {
+				console.error('Error sending openReactTable via postMessage:', e);
+				return false;
+			}
+		})();
+		""" % mission_json
+		
+		if Engine.has_singleton("JavaScriptBridge"):
+			var js = Engine.get_singleton("JavaScriptBridge")
+			return js.eval(script)
+		else:
+			print("JavaScriptBridge singleton not available")
+			return false
 
 	# Handle audio actions via JavaScript
 	static func handle_audio_action(action: String, sound_name: String = "", volume: float = -1.0):

@@ -1082,6 +1082,39 @@ func _on_mission_started_for_companion(mission):
 		if mission.companion_dialog.has("mission_started"):
 			var dialog_data = mission.companion_dialog["mission_started"]
 			JSBridge.get_interface().sendCompanionDialog("mission_started", dialog_data)
+			
+		# Check if we need to open a React graph or table for this mission
+		if "openReactGraph" in mission and mission.openReactGraph:
+			print("Opening React graph for mission: " + mission.id)
+			# Create a dictionary with the mission data to send to React
+			var mission_data = {
+				"id": mission.id,
+				"title": mission.title,
+				"description": mission.description
+			}
+			
+			# Add any custom React data if available
+			if "reactData" in mission and mission.reactData.size() > 0:
+				mission_data["reactData"] = mission.reactData
+			
+			# Open the React graph
+			JSBridge.get_interface().openReactGraph(mission_data)
+			
+		if "openReactTable" in mission and mission.openReactTable:
+			print("Opening React table for mission: " + mission.id)
+			# Create a dictionary with the mission data to send to React
+			var mission_data = {
+				"id": mission.id,
+				"title": mission.title,
+				"description": mission.description
+			}
+			
+			# Add any custom React data if available
+			if "reactData" in mission and mission.reactData.size() > 0:
+				mission_data["reactData"] = mission.reactData
+			
+			# Open the React table
+			JSBridge.get_interface().openReactTable(mission_data)
 
 func _on_mission_completed_for_companion(mission):
 	if learning_companion_connected and JSBridge.has_interface():
