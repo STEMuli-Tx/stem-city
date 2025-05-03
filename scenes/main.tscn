@@ -139,6 +139,9 @@ companion_dialog = {
 }
 }
 unlocked_items = Array[String]([])
+openReactGraph = false
+openReactTable = false
+reactData = {}
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mission"]
 bg_color = Color(0.145098, 0.172549, 0.231373, 0.941176)

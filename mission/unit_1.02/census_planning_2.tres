@@ -62,3 +62,6 @@ companion_dialog = {
 }
 }
 unlocked_items = Array[String](["res://models/road-corner.glb"])
+openReactGraph = false
+openReactTable = false
+reactData = {}

@@ -51,14 +51,9 @@ openReactGraph = false
 openReactTable = true
 reactData = {
 "tableData": {
-"title": "Store Customer Data",
 "description": "Analysis of customer demographics across different store locations",
 "headers": ["Store Location", "Q1 Visitors", "Q2 Visitors", "Q3 Visitors", "Q4 Visitors"],
-"rows": [
-["Downtown", 2450, 2680, 3100, 3500],
-["Suburban Mall", 1800, 2100, 2350, 2600],
-["Business District", 3200, 3350, 3400, 3650],
-["Residential Area", 1250, 1480, 1680, 1950]
-]
+"rows": [["Downtown", 2450, 2680, 3100, 3500], ["Suburban Mall", 1800, 2100, 2350, 2600], ["Business District", 3200, 3350, 3400, 3650], ["Residential Area", 1250, 1480, 1680, 1950]],
+"title": "Store Customer Data"
 }
 }

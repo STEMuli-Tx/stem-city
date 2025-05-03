@@ -47,3 +47,6 @@ companion_dialog = {
 }
 }
 unlocked_items = Array[String](["res://structures/store.tres"])
+openReactGraph = false
+openReactTable = false
+reactData = {}

@@ -45,3 +45,6 @@ companion_dialog = {
 }
 }
 unlocked_items = Array[String](["res://models/building-small-c.glb"])
+openReactGraph = false
+openReactTable = false
+reactData = {}

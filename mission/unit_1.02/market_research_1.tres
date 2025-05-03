@@ -40,14 +40,25 @@ openReactGraph = true
 openReactTable = false
 reactData = {
 "graphData": {
-"title": "Store Revenue Analysis",
-"data": [
-{ "month": "Jan", "revenue": 15000 },
-{ "month": "Feb", "revenue": 12000 },
-{ "month": "Mar", "revenue": 20000 },
-{ "month": "Apr", "revenue": 18000 },
-{ "month": "May", "revenue": 22000 },
-{ "month": "Jun", "revenue": 25000 }
-]
+"data": [{
+"month": "Jan",
+"revenue": 15000
+}, {
+"month": "Feb",
+"revenue": 12000
+}, {
+"month": "Mar",
+"revenue": 20000
+}, {
+"month": "Apr",
+"revenue": 18000
+}, {
+"month": "May",
+"revenue": 22000
+}, {
+"month": "Jun",
+"revenue": 25000
+}],
+"title": "Store Revenue Analysis"
 }
 }

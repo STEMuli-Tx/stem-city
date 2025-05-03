@@ -60,3 +60,6 @@ companion_dialog = {
 }
 }
 unlocked_items = Array[String](["res://models/store.glb"])
+openReactGraph = false
+openReactTable = false
+reactData = {}

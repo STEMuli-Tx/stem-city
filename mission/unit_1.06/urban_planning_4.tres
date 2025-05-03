@@ -57,3 +57,6 @@ companion_dialog = {
 }
 }
 unlocked_items = Array[String]([])
+openReactGraph = false
+openReactTable = false
+reactData = {}
