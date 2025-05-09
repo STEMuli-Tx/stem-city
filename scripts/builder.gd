@@ -590,38 +590,59 @@ func action_structure_toggle(structure:Structure):
 		index = found_index
 		selectionEnabled = true
 		update_structure()
-	
-	
-	
+
 # Update the structure visual in the 'cursor'
 func update_structure():
 	# Clear previous structure preview in selector
 	for n in selector_container.get_children():
 		selector_container.remove_child(n)
-		
+
 	# Create new structure preview in selector
 	var _model = _structures[index].model.instantiate()
 	selector_container.add_child(_model)
-	
-	# Get reference to the selector sprite
-	var selector_sprite = selector.get_node("Sprite")
-	
-	# Apply appropriate scaling based on structure type
-	if _structures[index].model.resource_path.contains("power_plant"):
-		# Scale power plant model to be much smaller (0.5x)
-		_model.scale = Vector3(0.5, 0.5, 0.5)
-		# Center the power plant model within the selector
-		_model.position = Vector3(-3.0, 0.0, 3.0)  # Reset position
-	else:
-		# Scale buildings, roads, and decorative terrain to match (3x)
-		_model.scale = Vector3(3.0, 3.0, 3.0)
-		_model.position.y += 0.0 # No need for Y adjustment with scaling
-	
-	# Get the selector scale from the structure resource
-	var scale_factor = _structures[index].selector_scale
-	selector_sprite.scale = Vector3(scale_factor, scale_factor, scale_factor)
-		
-	# Sound effects are now handled in game_manager.gd
+
+	# Get reference to the corner sprites
+	var selector_sprite_topleft = selector.get_node("TopLeft")
+	var selector_sprite_topright = selector.get_node("TopRight")
+	var selector_sprite_botleft = selector.get_node("BotLeft")
+	var selector_sprite_botright = selector.get_node("BotRight")
+
+	# Scale model based on general rules
+	_model.scale = Vector3(3.0, 3.0, 3.0)
+
+	# Get mesh and AABB for drawing the corner sprites
+	var mesh = get_mesh(_structures[index].model)
+	if not mesh:
+		return
+
+	var aabb = mesh.get_aabb()
+	var cell_size = gridmap.cell_size
+	var structure_size = get_structure_size_in_cells(index)
+
+	# Minimum size based on structure's footprint in the grid
+	var min_size_x = structure_size.x * cell_size.x
+	var min_size_z = structure_size.y * cell_size.z
+
+	# Choose the larger of AABB size or grid footprint
+	var final_size_x = max(aabb.size.x, min_size_x)
+	var final_size_z = max(aabb.size.z, min_size_z)
+
+	# Position the corner sprites
+	var half_size_x = final_size_x * 0.5
+	var half_size_z = final_size_z * 0.5
+
+	selector_sprite_topleft.position = Vector3(-half_size_x, 0, half_size_z)
+	selector_sprite_topright.position = Vector3(half_size_x, 0, half_size_z)
+	selector_sprite_botleft.position = Vector3(-half_size_x, 0, -half_size_z)
+	selector_sprite_botright.position = Vector3(half_size_x, 0, -half_size_z)
+
+	# Apply uniform scale to corner sprites
+	var scale_factor = structures[index].selector_scale
+	selector_sprite_topleft.scale = Vector3(scale_factor, scale_factor, scale_factor)
+	selector_sprite_topright.scale = Vector3(scale_factor, scale_factor, scale_factor)
+	selector_sprite_botleft.scale = Vector3(scale_factor, scale_factor, scale_factor)
+	selector_sprite_botright.scale = Vector3(scale_factor, scale_factor, scale_factor)
+
 	
 func update_cash():
 	cash_display.text = "$" + str(map.cash)
@@ -682,8 +703,8 @@ func _add_power_plant(position: Vector3, structure_index: int):
 	# Create the transform
 	var transform = Transform3D()
 	
-	# Set scale (using the smaller 0.5x scale)
-	transform.basis = Basis().scaled(Vector3(0.5, 0.5, 0.5))
+	# Set scale
+	transform.basis = Basis().scaled(Vector3(3.0, 3.0, 3.0))
 	
 	# Apply rotation from the selector to preserve the rotation the player chose
 	transform.basis = transform.basis * selector.basis
@@ -1093,13 +1114,21 @@ func get_structure_size_in_cells(structure_index: int) -> Vector2i:
 	var mesh = get_mesh(structures[structure_index].model)
 	if not mesh:
 		return Vector2i(1, 1)  # Fallback for safety
-	
+
 	var aabb = mesh.get_aabb()
 	var cell_size = gridmap.cell_size
+	
+	# Apply model scale (assumes uniform scale used later like Vector3(3,3,3))
+	var model_scale = Vector3(3, 3, 3)  # hardcoded; or pull from data if varies
+
+	var scaled_size_x = aabb.size.x * model_scale.x
+	var scaled_size_z = aabb.size.z * model_scale.z
+
 	return Vector2i(
-		ceil(aabb.size.x / cell_size.x),
-		ceil(aabb.size.z / cell_size.z)
+		ceil(scaled_size_x / cell_size.x),
+		ceil(scaled_size_z / cell_size.z)
 	)
+
 
 # Update the visual feedback for placement
 func update_placement_visual(can_place: bool):

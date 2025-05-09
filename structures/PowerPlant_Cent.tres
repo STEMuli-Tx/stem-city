@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="Structure" load_steps=3 format=3 uid="uid://dlpsbejml37uy"]
+
+[ext_resource type="PackedScene" uid="uid://5xxtj16v2om3" path="res://models/power_plant_cen.glb" id="1_7h3eh"]
+[ext_resource type="Script" uid="uid://uxn26t1x4ehr" path="res://scripts/structure.gd" id="1_w8xkd"]
+
+[resource]
+script = ExtResource("1_w8xkd")
+title = "Power Plant"
+type = 6
+price = 5000
+size_category = 0
+model = ExtResource("1_7h3eh")
+population_count = 0
+kW_usage = 0.0
+kW_production = 40.0
+selector_scale = 2.8
+thumbnail = "res://sprites/updated/power_plant.png"
+icon = "res://sprites/updated/power_plant.png"
+unlocked = true
+spawn_builder = true
+description = "A power-generating facility that produces electricity to keep your city's buildings operational and citizens happy. Produces 40 kW of energy."
+metadata/_custom_type_script = "uid://uxn26t1x4ehr"
