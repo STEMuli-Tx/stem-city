@@ -45,7 +45,7 @@ movie_writer/movie_file="D:/Godot/recording.avi"
 
 [editor_plugins]
 
-enabled=PackedStringArray()
+enabled=PackedStringArray("res://addons/ftue_editor/plugin.cfg")
 
 [global_classes]
 

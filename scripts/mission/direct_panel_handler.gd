@@ -43,7 +43,7 @@ func show_direct_unlocked_panel(structures, callback_node, callback_method):
 		# Add texture
 		var tex_rect = TextureRect.new()
 		tex_rect.custom_minimum_size = Vector2(100, 100)
-		tex_rect.expand_mode = TextureRect.EXPAND_KEEP_ASPECT
+		tex_rect.expand = true
 		tex_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		row.add_child(tex_rect)
 		
@@ -62,7 +62,7 @@ func show_direct_unlocked_panel(structures, callback_node, callback_method):
 		# Add description
 		var desc_label = Label.new()
 		desc_label.text = structure.description if structure.has_method("description") else "No description"
-		desc_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		desc_label.autowrap_mode = TextServer.AUTOWRAP_WORD
 		info.add_child(desc_label)
 		
 		# Add separator

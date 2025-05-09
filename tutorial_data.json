@@ -1,0 +1,35 @@
+{
+  "id": "test_ftue",
+  "steps": [
+	{
+	  "dialog_position": "(400.0, 400.0)",
+	  "dialog_size": "(320.0, 120.0)",
+	  "highlight": {
+		"position": "(200.0, 200.0)",
+		"shape": 1.0,
+		"size": "(500.0, 200.0)"
+	  },
+	  "text": "Step 1 desc",
+	  "title": "Step 1 Title"
+	},
+	{
+	  "dialog_position": "(401.0, 300.0)",
+	  "dialog_size": "(186.0, 142.0)",
+	  "highlight": {
+		"position": "(100.0, 100.0)",
+		"radius": 100.0,
+		"shape": 0.0
+	  },
+	  "text": "Step 2 desc",
+	  "title": "Step 2 Title"
+	},
+	{
+	  "dialog_position": "(400.0, 500.0)",
+	  "highlight": {
+		"shape": 2.0
+	  },
+	  "text": "No highlight here.",
+	  "title": "No Highlight"
+	}
+  ]
+}

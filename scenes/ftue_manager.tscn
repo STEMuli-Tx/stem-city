@@ -1,0 +1,67 @@
+[gd_scene load_steps=4 format=3 uid="uid://bqnvj8y4g5s3v"]
+
+[ext_resource type="Script" uid="uid://cbbkfyvnrp6ua" path="res://scripts/ftue_manager.gd" id="1_ftue"]
+[ext_resource type="Shader" uid="uid://b2as2qp7ffcak" path="res://shaders/rectangle_mask.gdshader" id="2_hs5xg"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bpe7q"]
+shader = ExtResource("2_hs5xg")
+shader_parameter/position = Vector2(0, 0)
+shader_parameter/size = Vector2(250, 100)
+shader_parameter/overlay_color = Vector4(0, 0, 0, 0.6)
+
+[node name="FTUEManager" type="Node"]
+script = ExtResource("1_ftue")
+
+[node name="HighlightMask" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_bpe7q")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ClickBlocker" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+color = Color(0, 0, 0, 0)
+
+[node name="DialogPanel" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(320, 120)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -560.0
+offset_top = -440.0
+offset_right = -160.0
+offset_bottom = 1251.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="DialogPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="DialogPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="DialogText" type="RichTextLabel" parent="DialogPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "Step 1 desc"
+fit_content = true
+
+[node name="NextButton" type="Button" parent="DialogPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Next"

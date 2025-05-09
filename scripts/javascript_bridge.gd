@@ -1,3 +1,4 @@
+@tool
 extends Node
 
 # Make this a singleton
@@ -12,11 +13,10 @@ signal open_react_graph(data)
 signal open_react_table(data)
 
 # Variables
-static var _interface = null
+var _interface = null
 var _init_data = null
 var _init_check_received = false
-static var _pending_signals = []
-var _my_js_callback = JavaScriptBridge.create_callback(receive_init_data)
+var _pending_signals = []
 var window = null
 
 func _init():
@@ -26,53 +26,66 @@ func _init():
 # while gracefully handling platforms that don't support it
 
 func _ready():
-	# Connect signals when the node is initialized
+	# Only set up JavaScript interface if we're in a web export
 	if OS.has_feature("web"):
-		window = JavaScriptBridge.get_interface("window")
-		# Wait for the interface to be available
-		await get_tree().process_frame
-		receive_init_data("test")
+		_setup_javascript_interface()
+	else:
+		print("JavaScript bridge initialized in non-web environment")
 
-		# Set up message listener and interface
+func _setup_javascript_interface():
+	if not Engine.has_singleton("JSBridge"):
+		push_error("JSBridge singleton not available")
+		return
 		
+	var js = Engine.get_singleton("JSBridge")
+	window = js.get_interface("window")
+	
+	# Wait for the interface to be available
+	await get_tree().process_frame
+	receive_init_data("test")
 
-		# Set up the interface
-		_interface = JavaScript.get_interface()
-		print("JavaScript interface initialized")
+	# Set up message listener and interface
+	js.eval("""
+		window.addEventListener('message', function(event) {
+			if (event.data && event.data.source === 'react-app') {
+				window.godot_interface.emit_signal(event.data.type, event.data.data);
+			}
+		});
+	""")
 
-		# Set up callbacks in JavaScript
-		JavaScriptBridge.eval("""
-			window.godot_interface._callbacks.init_data_received = function(data) {
-				console.log('Emitting init_data_received signal with data:', data);
-				// Don't re-emit the signal to avoid recursion
-				window.godot_interface._callbacks.init_data_received = null;
-			};
-			window.godot_interface._callbacks.init_check_received = function() {
-				console.log('Emitting init_check_received signal');
-				// Don't re-emit the signal to avoid recursion
-				window.godot_interface._callbacks.init_check_received = null;
-			};
-			window.godot_interface._callbacks.mission_progress_updated = function(data) {
-				window.godot_interface.emit_signal('mission_progress_updated', data);
-			};
-			window.godot_interface._callbacks.mission_completed = function(data) {
-				window.godot_interface.emit_signal('mission_completed', data);
-			};
-			window.godot_interface._callbacks.open_react_graph = function(data) {
-				window.godot_interface.emit_signal('open_react_graph', data);
-			};
-			window.godot_interface._callbacks.open_react_table = function(data) {
-				window.godot_interface.emit_signal('open_react_table', data);
-			};
-		""")
-		print("JavaScript callbacks set up")
+	# Set up the interface
+	_interface = js.get_interface()
+	print("JavaScript interface initialized")
 
-		# Send init data from URL parameters if present
+	# Set up callbacks in JavaScript
+	js.eval("""
+		window.godot_interface._callbacks.init_data_received = function(data) {
+			console.log('Emitting init_data_received signal with data:', data);
+			// Don't re-emit the signal to avoid recursion
+			window.godot_interface._callbacks.init_data_received = null;
+		};
+		window.godot_interface._callbacks.init_check_received = function() {
+			console.log('Emitting init_check_received signal');
+			// Don't re-emit the signal to avoid recursion
+			window.godot_interface._callbacks.init_check_received = null;
+		};
+		window.godot_interface._callbacks.mission_progress_updated = function(data) {
+			window.godot_interface.emit_signal('mission_progress_updated', data);
+		};
+		window.godot_interface._callbacks.mission_completed = function(data) {
+			window.godot_interface.emit_signal('mission_completed', data);
+		};
+		window.godot_interface._callbacks.open_react_graph = function(data) {
+			window.godot_interface.emit_signal('open_react_graph', data);
+		};
+		window.godot_interface._callbacks.open_react_table = function(data) {
+			window.godot_interface.emit_signal('open_react_table', data);
+		};
+	""")
+	print("JavaScript callbacks set up")
 
-
-		# Process any pending signals
-		_process_pending_signals()
-
+	# Process any pending signals
+	_process_pending_signals()
 
 func receive_init_data(missions_data):
 	# First, let's properly log the missions_data itself
@@ -81,16 +94,17 @@ func receive_init_data(missions_data):
 	# To get URL information, we need to extract specific properties from window.location
 	if window and window.location:
 		# Access specific properties of the location object
-		var href = JavaScriptBridge.eval("window.location.href")
-		var search = JavaScriptBridge.eval("window.location.search")
-		var hostname = JavaScriptBridge.eval("window.location.hostname")
+		var js = Engine.get_singleton("JSBridge")
+		var href = js.eval("window.location.href")
+		var search = js.eval("window.location.search")
+		var hostname = js.eval("window.location.hostname")
 
 		print("URL href:", href)
 		print("URL search params:", search)
 		print("URL hostname:", hostname)
 
 		# Parse URL parameters more directly
-		var params_str = JavaScriptBridge.eval("""
+		var params_str = js.eval("""
 			(function() {
 				var result = {};
 				var params = new URLSearchParams(window.location.search);
@@ -111,14 +125,13 @@ func receive_init_data(missions_data):
 			var missions = JSON.parse_string(missions_json)
 			print("Missions from URL:", missions)
 			var mission_data = {"missions": missions}
-			Globals.receive_data_from_browser(mission_data)
+			get_node("/root/Globals").receive_data_from_browser(mission_data)
 
 	# Also process the directly passed missions_data
 	if missions_data and missions_data != "test":
 		print("Processing passed missions data")
 		emit_signal("init_data_received", missions_data)
 
-	
 func _process_pending_signals():
 	if _pending_signals.size() > 0:
 		print("Processing pending signals...")
@@ -129,38 +142,20 @@ func _process_pending_signals():
 
 # Static methods for interface checks
 static func has_interface() -> bool:
-	return JavaScript.has_interface()
+	return Engine.has_singleton("JSBridge")
 
 static func get_interface():
-	return JavaScript.get_interface()
+	return Engine.get_singleton("JSBridge")
 	
 # Helper method to convert Godot Dictionary to JSON string
 static func JSON_stringify(data) -> String:
 	return JSON.stringify(data)
 
-#static func send_signal(signal_name: String, data = null):
-#	if JavaScript.has_interface():
-#		if _interface and _interface.has_method("emit_signal"):
-#			_interface.emit_signal(signal_name, data)
-#		else:
-#			_pending_signals.append({"signal_name": signal_name, "data": data})
-#	else:
-#		_pending_signals.append({"signal_name": signal_name, "data": data})
-
-#func send_mission_progress(mission_id: String, objective_index: int, current_count: int, target_count: int):
-#	send_signal("mission_progress_updated", {
-#		"mission_id": mission_id,
-#		"objective_index": objective_index,
-#		"current_count": current_count,
-#		"target_count": target_count
-#	})
-#
-#func send_mission_completed(mission_id: String):
-#	send_signal("mission_completed", {
-#		"mission_id": mission_id
-#	})
-
 static func send_open_graph(graph_data: Dictionary):
+	if not instance:
+		push_error("JSBridge not initialized; cannot send_open_graph")
+		return
+		
 	# Format the message to match what React expects
 	var message = {
 		"source": "godot-game",
@@ -168,12 +163,8 @@ static func send_open_graph(graph_data: Dictionary):
 		"data": graph_data
 	}
 	
-	# First, emit the Godot signal for internal listeners
-
-	
 	# Then, send the message directly to React via postMessage for external listeners
 	if OS.has_feature("web"):
-#		send_signal("open_react_graph", graph_data)
 		var message_json = JSON_stringify(message)
 		var script = """
 		(function() {
@@ -195,25 +186,21 @@ static func send_open_graph(graph_data: Dictionary):
 		})();
 		""" % message_json
 
-		if Engine.has_singleton("JavaScriptBridge"):
-			var js = Engine.get_singleton("JavaScriptBridge")
+		if Engine.has_singleton("JSBridge"):
+			var js = Engine.get_singleton("JSBridge")
 			js.eval(script)
-		else:
-			print("JavaScriptBridge singleton not available")
-	else:
-		# For non-web platforms, add to pending signals
-		_pending_signals.append({"signal_name": "open_react_graph", "data": graph_data})
 
 static func send_open_table(table_data: Dictionary):
+	if not instance:
+		push_error("JSBridge not initialized; cannot send_open_table")
+		return
+		
 	# Format the message to match what React expects
 	var message = {
 		"source": "godot-game", 
 		"type": "open_react_table",
 		"data": table_data
 	}
-	
-	# First, emit the Godot signal for internal listeners
-#	emit_signal("open_react_table", table_data)
 	
 	# Then, send the message directly to React via postMessage for external listeners
 	if OS.has_feature("web"):
@@ -238,37 +225,12 @@ static func send_open_table(table_data: Dictionary):
 		})();
 		""" % message_json
 
-		if Engine.has_singleton("JavaScriptBridge"):
-			var js = Engine.get_singleton("JavaScriptBridge")
+		if Engine.has_singleton("JSBridge"):
+			var js = Engine.get_singleton("JSBridge")
 			js.eval(script)
 		else:
-			print("JavaScriptBridge singleton not available")
+			print("JSBridge singleton not available")
 		
 	else:
 		# For non-web platforms, add to pending signals
-		_pending_signals.append({"signal_name": "open_react_table", "data": table_data})
-
-#func send_companion_dialog(dialog_type: String, dialog_data: Dictionary):
-#	send_signal("companion_dialog", {
-#		"type": dialog_type,
-#		"data": dialog_data
-#	})
-#
-#func send_audio_action(action: String, data: Dictionary = {}):
-#	send_signal("audio_action", {
-#		"action": action,
-#		"data": data
-#	})
-
-# Static wrappers so send_open_ functions can be called on the class directly
-#static func send_open_graph(graph_data: Dictionary) -> void:
-#	if instance:
-#		instance.send_open_graph(graph_data)
-#	else:
-#		push_error("JavaScriptBridge not initialized; cannot send_open_graph")
-
-#static func send_open_table(table_data: Dictionary) -> void:
-#	if instance:
-#		instance.send_open_table(table_data)
-#	else:
-#		push_error("JavaScriptBridge not initialized; cannot send_open_table")
+		instance._pending_signals.append({"signal_name": "open_react_table", "data": table_data})

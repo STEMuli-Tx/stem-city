@@ -8,7 +8,7 @@ const ACCEL = 10
 
 func _physics_process(delta: float) -> void:
 	var direction = Vector3()
-	nav.target_position = Global.target.global_position
+	nav.target_position = Globals.target.global_position
 	
 	direction = nav.get_next_path_position() - global_position
 	direction = direction.normalized()

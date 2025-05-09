@@ -1,0 +1,142 @@
+[gd_scene load_steps=3 format=3 uid="uid://b6x8v0j6y5n3q"]
+
+[ext_resource type="Script" path="res://addons/ftue_editor/ftue_editor_dock.gd" id="1_2k4m3"]
+[ext_resource type="Script" path="res://addons/ftue_editor/preview_container.gd" id="2_preview"]
+
+[node name="FTUEEditorDock" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_2k4m3")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 0
+offset_right = 300.0
+offset_bottom = 600.0
+
+[node name="StepSelector" type="OptionButton" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="DialogTitleLabel" type="Label" parent="VBoxContainer"]
+text = "Dialog Title"
+
+[node name="DialogTitleEdit" type="LineEdit" parent="VBoxContainer"]
+
+[node name="DialogTextLabel" type="Label" parent="VBoxContainer"]
+text = "Dialog Text"
+
+[node name="DialogTextEdit" type="TextEdit" parent="VBoxContainer"]
+size_flags_vertical = 3
+custom_minimum_size = Vector2(0, 56)
+
+[node name="DialogPositionSizeControls" type="HBoxContainer" parent="VBoxContainer"]
+
+[node name="DialogX" type="SpinBox" parent="VBoxContainer/DialogPositionSizeControls"]
+prefix = "X: "
+min_value = -10000.0
+max_value = 10000.0
+value = 0.0
+
+[node name="DialogY" type="SpinBox" parent="VBoxContainer/DialogPositionSizeControls"]
+prefix = "Y: "
+min_value = -10000.0
+max_value = 10000.0
+value = 0.0
+
+[node name="DialogW" type="SpinBox" parent="VBoxContainer/DialogPositionSizeControls"]
+prefix = "W: "
+min_value = 0.0
+max_value = 2000.0
+value = 320.0
+
+[node name="DialogH" type="SpinBox" parent="VBoxContainer/DialogPositionSizeControls"]
+prefix = "H: "
+min_value = 0.0
+max_value = 2000.0
+value = 120.0
+
+[node name="DialogImageLabel" type="Label" parent="VBoxContainer"]
+text = "Dialog Image Path"
+
+[node name="DialogImageEdit" type="LineEdit" parent="VBoxContainer"]
+
+[node name="DialogImageSpacer" type="Control" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 8)
+
+[node name="Separator" type="HSeparator" parent="VBoxContainer"]
+
+[node name="HighlightLabel" type="Label" parent="VBoxContainer"]
+text = "Highlight Data"
+
+[node name="HighlightTypeSelector" type="OptionButton" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="PositionControls" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="XPosition" type="SpinBox" parent="VBoxContainer/PositionControls"]
+layout_mode = 2
+min_value = -1000.0
+max_value = 1000.0
+value = 0.0
+prefix = "X: "
+
+[node name="YPosition" type="SpinBox" parent="VBoxContainer/PositionControls"]
+layout_mode = 2
+min_value = -1000.0
+max_value = 1000.0
+value = 0.0
+prefix = "Y: "
+
+[node name="SizeControls" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Width" type="SpinBox" parent="VBoxContainer/SizeControls"]
+layout_mode = 2
+min_value = 0.0
+max_value = 1000.0
+value = 100.0
+prefix = "W: "
+
+[node name="Height" type="SpinBox" parent="VBoxContainer/SizeControls"]
+layout_mode = 2
+min_value = 0.0
+max_value = 1000.0
+value = 100.0
+prefix = "H: "
+
+[node name="Radius" type="SpinBox" parent="VBoxContainer/SizeControls"]
+layout_mode = 2
+min_value = 0.0
+max_value = 1000.0
+value = 150.0
+prefix = "R: "
+
+[node name="SaveButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Save"
+
+[node name="PreviewContainer" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 0
+offset_left = 320.0
+offset_top = 0.0
+offset_right = 1120.0
+offset_bottom = 600.0
+script = ExtResource("2_preview")
+custom_minimum_size = Vector2(1920, 1080)
+
+[node name="ActionButton" type="Button" parent="PreviewContainer"]
+text = "Next"
+anchor_left = 0.0
+anchor_top = 0.8
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 400.0
+offset_top = 200.0
+size_flags_horizontal = 2
+size_flags_vertical = 0 
