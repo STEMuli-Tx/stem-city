@@ -1,10 +1,9 @@
-[gd_scene load_steps=39 format=3 uid="uid://vgwrcfy1qawf"]
+[gd_scene load_steps=42 format=3 uid="uid://vgwrcfy1qawf"]
 
 [ext_resource type="Script" uid="uid://c37h6na3e4twn" path="res://scripts/builder.gd" id="1_jybm7"]
 [ext_resource type="Environment" uid="uid://jbptgqvstei3" path="res://scenes/main-environment.tres" id="1_yndf3"]
 [ext_resource type="Script" uid="uid://uxn26t1x4ehr" path="res://scripts/structure.gd" id="2_54v6r"]
 [ext_resource type="Resource" uid="uid://dv14kkhb6umkv" path="res://structures/road-straight.tres" id="2_bwyku"]
-[ext_resource type="Texture2D" uid="uid://cbk07cxgshg26" path="res://sprites/selector.png" id="4_wr1wv"]
 [ext_resource type="Resource" uid="uid://cntgl86ianngh" path="res://structures/building-small-a.tres" id="5_v5o2m"]
 [ext_resource type="Resource" uid="uid://ccb475jeg7ym5" path="res://structures/grass-trees.tres" id="6_fwsy4"]
 [ext_resource type="Resource" uid="uid://y6jafhfnhbrp" path="res://structures/grass-trees-tall.tres" id="7_t5ykj"]
@@ -21,11 +20,15 @@
 [ext_resource type="Script" uid="uid://dnquivpg0ead" path="res://scripts/mission/learning_panel.gd" id="14_q2ymb"]
 [ext_resource type="Resource" uid="uid://dqqe3iofnleup" path="res://structures/pavement-fountain.tres" id="14_t5ykj"]
 [ext_resource type="Resource" uid="uid://dveu4dnue0d54" path="res://structures/road-intersection.tres" id="15_e755i"]
+[ext_resource type="Texture2D" uid="uid://ubijkx2t6i8q" path="res://sprites/selector_topLeft.png" id="17_j8jky"]
 [ext_resource type="FontFile" uid="uid://d0cxd77jybrcn" path="res://fonts/lilita_one_regular.ttf" id="17_vlub6"]
 [ext_resource type="PackedScene" uid="uid://b4gkfwf4i3ydl" path="res://scenes/character.tscn" id="18_8lrh8"]
 [ext_resource type="PackedScene" uid="uid://cgk66f6rg03mj" path="res://scenes/hud.tscn" id="18_hud"]
+[ext_resource type="Texture2D" uid="uid://belf5al4jw26j" path="res://sprites/selector_topRight.png" id="18_kmb1v"]
 [ext_resource type="PackedScene" uid="uid://bqjnp7uypupog" path="res://scenes/controls_panel.tscn" id="19_controls"]
+[ext_resource type="Texture2D" uid="uid://dx0xmlklspfgc" path="res://sprites/selector_botLeft.png" id="19_fuf3a"]
 [ext_resource type="Script" uid="uid://b5nubrdeseay4" path="res://scripts/game_manager.gd" id="20_game_manager"]
+[ext_resource type="Texture2D" uid="uid://smgidssaq42w" path="res://sprites/selector_botRight.png" id="20_pibwh"]
 [ext_resource type="PackedScene" uid="uid://b4s46k58ddpyc" path="res://scenes/sound_panel.tscn" id="21_sound_panel"]
 [ext_resource type="Resource" uid="uid://dtal0tl2ee336" path="res://structures/store.tres" id="21_y11qv"]
 [ext_resource type="PackedScene" uid="uid://btfwonjc8uj0w" path="res://scenes/mission_select_menu.tscn" id="24_ro3en"]
@@ -134,9 +137,21 @@ cash_display = NodePath("../CanvasLayer/HUD/PanelContainer/HBoxContainer/CashIte
 
 [node name="Selector" type="Node3D" parent="Builder"]
 
-[node name="Sprite" type="Sprite3D" parent="Builder/Selector"]
+[node name="TopLeft" type="Sprite3D" parent="Builder/Selector"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.06, 0)
-texture = ExtResource("4_wr1wv")
+texture = ExtResource("17_j8jky")
+
+[node name="TopRight" type="Sprite3D" parent="Builder/Selector"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.06, 0)
+texture = ExtResource("18_kmb1v")
+
+[node name="BotLeft" type="Sprite3D" parent="Builder/Selector"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.06, 0)
+texture = ExtResource("19_fuf3a")
+
+[node name="BotRight" type="Sprite3D" parent="Builder/Selector"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.06, 0)
+texture = ExtResource("20_pibwh")
 
 [node name="Container" type="Node3D" parent="Builder/Selector"]
 
