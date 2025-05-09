@@ -1088,6 +1088,18 @@ func check_can_place(pos: Vector3) -> bool:
 				return false
 	
 	return true
+	
+func get_structure_size_in_cells(structure_index: int) -> Vector2i:
+	var mesh = get_mesh(structures[structure_index].model)
+	if not mesh:
+		return Vector2i(1, 1)  # Fallback for safety
+	
+	var aabb = mesh.get_aabb()
+	var cell_size = gridmap.cell_size
+	return Vector2i(
+		ceil(aabb.size.x / cell_size.x),
+		ceil(aabb.size.z / cell_size.z)
+	)
 
 # Update the visual feedback for placement
 func update_placement_visual(can_place: bool):
