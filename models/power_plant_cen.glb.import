@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://ckxkrnomcegue"
-path="res://.godot/imported/power_plant.glb-42b9692747624d466475e8c4d08c66a1.scn"
+uid="uid://5xxtj16v2om3"
+path="res://.godot/imported/power_plant_cen.glb-f13ab6a09573e09fe1a2f5d19350ef8d.scn"
 
 [deps]
 
-source_file="res://models/power_plant.glb"
-dest_files=["res://.godot/imported/power_plant.glb-42b9692747624d466475e8c4d08c66a1.scn"]
+source_file="res://models/power_plant_cen.glb"
+dest_files=["res://.godot/imported/power_plant_cen.glb-f13ab6a09573e09fe1a2f5d19350ef8d.scn"]
 
 [params]
 
