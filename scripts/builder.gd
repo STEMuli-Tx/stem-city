@@ -186,17 +186,24 @@ func _process(delta):
 	action_save() # Saving
 	action_load() # Loading
 	
+	# Get the structure's size in cells
+	var structure_size = get_structure_size_in_cells(index)
+	var cell_width = structure_size.x
+	var cell_height = structure_size.y
+
 	# Map position based on mouse
 	var world_position = plane.intersects_ray(
 		view_camera.project_ray_origin(get_viewport().get_mouse_position()),
 		view_camera.project_ray_normal(get_viewport().get_mouse_position()))
 
-	# Snap to 3-unit grid
+	# Snap to grid based on structure's cell size
 	var gridmap_position = Vector3(
-		round(world_position.x / 3.0) * 3.0,
+		round(world_position.x / (cell_width * gridmap.cell_size.x)) * (cell_width * gridmap.cell_size.x),
 		0,
-		round(world_position.z / 3.0) * 3.0
+		round(world_position.z / (cell_height * gridmap.cell_size.z)) * (cell_height * gridmap.cell_size.z)
 	)
+
+	# Smooth the selector position
 	selector.position = lerp(selector.position, gridmap_position, delta * 40)
 	
 	# Check for collisions and update visual feedback
