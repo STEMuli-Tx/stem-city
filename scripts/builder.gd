@@ -1027,10 +1027,23 @@ func action_load():
 
 # Function to check if a structure can be placed at the given position
 func check_can_place(pos: Vector3) -> bool:
+	# Get the structure's size in cells
+	var structure_size = get_structure_size_in_cells(index)
+	var structure_cell_width = structure_size.x
+	var structure_cell_height = structure_size.y
+	
+	# Calculate half the width and height (center-based comparison)
+	var half_width = structure_cell_width * gridmap.cell_size.x * 0.5
+	var half_height = structure_cell_height * gridmap.cell_size.z * 0.5
+
 	# Check for existing structures in the gridmap
 	for cell in gridmap.get_used_cells():
-		var distance = Vector2(abs(cell.x - pos.x), abs(cell.z - pos.z))
-		var min_distance = 3.0  # Minimum distance between centers
+		var cell_pos = gridmap.map_to_local(cell)  # Convert grid position to world position
+		var distance = Vector2(abs(cell_pos.x - pos.x), abs(cell_pos.z - pos.z))
+
+		# If the distance is less than half of the structure's size, it cannot be placed
+		if distance.x < half_width and distance.y < half_height:
+			return false
 		
 		# If either structure is a road and they're exactly adjacent, allow it
 		var existing_item = gridmap.get_cell_item(cell)
@@ -1038,11 +1051,7 @@ func check_can_place(pos: Vector3) -> bool:
 			structures[existing_item].type == Structure.StructureType.ROAD):
 			if (distance.x == 1 and distance.y == 0) or (distance.x == 0 and distance.y == 1):
 				continue
-		
-		# Check if too close
-		if distance.x < min_distance and distance.y < min_distance:
-			return false
-	
+
 	# Check for roads in the navigation region
 	if nav_region:
 		for child in nav_region.get_children():
@@ -1053,16 +1062,16 @@ func check_can_place(pos: Vector3) -> bool:
 					float(child.name.split("_")[2])
 				)
 				var distance = Vector2(abs(road_pos.x - pos.x), abs(road_pos.z - pos.z))
-				
+
 				# If placing a road and they're exactly adjacent, allow it
 				if structures[index].type == Structure.StructureType.ROAD:
 					if (distance.x == 1 and distance.y == 0) or (distance.x == 0 and distance.y == 1):
 						continue
-				
-				# Check if too close
-				if distance.x < 3 and distance.y < 3:
+
+				# Check if too close based on structure size
+				if distance.x < half_width and distance.y < half_height:
 					return false
-	
+
 	# Check for power plants
 	for child in get_children():
 		if child.name.begins_with("PowerPlant_"):
@@ -1072,9 +1081,9 @@ func check_can_place(pos: Vector3) -> bool:
 				float(child.name.split("_")[2])
 			)
 			var distance = Vector2(abs(plant_pos.x - pos.x), abs(plant_pos.z - pos.z))
-			if distance.x < 3 and distance.y < 3:
+			if distance.x < half_width and distance.y < half_height:
 				return false
-	
+
 	# Check for terrain
 	for child in get_children():
 		if child.name.begins_with("Terrain_"):
@@ -1084,17 +1093,17 @@ func check_can_place(pos: Vector3) -> bool:
 				float(child.name.split("_")[2])
 			)
 			var distance = Vector2(abs(terrain_pos.x - pos.x), abs(terrain_pos.z - pos.z))
-			if distance.x < 2 and distance.y < 2:
+			if distance.x < half_width and distance.y < half_height:
 				return false
-	
+
 	# Check for construction sites
 	if construction_manager:
 		for site_pos in construction_manager.construction_sites:
 			var distance = Vector2(abs(site_pos.x - pos.x), abs(site_pos.z - pos.z))
-			# Block the entire 3x3 grid space where construction is happening
-			if distance.x < 3 and distance.y < 3:
+			# Block the entire grid space where construction is happening based on structure size
+			if distance.x < half_width and distance.y < half_height:
 				return false
-	
+
 	# Check for plots (transparent previews of buildings being constructed)
 	for child in get_children():
 		if child.name.begins_with("Plot_"):
@@ -1104,11 +1113,26 @@ func check_can_place(pos: Vector3) -> bool:
 				float(child.name.split("_")[2])
 			)
 			var distance = Vector2(abs(plot_pos.x - pos.x), abs(plot_pos.z - pos.z))
-			# Block the entire 3x3 grid space where construction is happening
-			if distance.x < 3 and distance.y < 3:
+			# Block the entire grid space where construction is happening based on structure size
+			if distance.x < half_width and distance.y < half_height:
 				return false
-	
+				
+				
+	#Check for general buildings
+	for child in get_children():
+		if(child.name.contains("_")):
+			var struct_Pos = Vector3(
+				float(child.name.split("_")[1]),
+				0,
+				float(child.name.split("_")[2])
+			)
+			var distance = Vector2(abs(struct_Pos.x - pos.x), abs(struct_Pos.z - pos.z))
+			# Block the entire grid space where the structure is
+			if distance.x < half_width and distance.y < half_height:
+				return false
+
 	return true
+
 	
 func get_structure_size_in_cells(structure_index: int) -> Vector2i:
 	var mesh = get_mesh(structures[structure_index].model)
