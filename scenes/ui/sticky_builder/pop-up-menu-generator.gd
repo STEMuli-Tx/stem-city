@@ -31,23 +31,48 @@ func _ready():
 func _load_structures():
 	_structures.clear()
 	
-	var dir = DirAccess.open("res://structures")
-	if not dir:
-		push_error("Failed to access the structures directory")
-		return
-	
-	dir.list_dir_begin()
-	var file_name = dir.get_next()
-	
-	while file_name != "":
-		if not dir.current_is_dir() and file_name.ends_with(".tres"):
-			var structure = load("res://structures/" + file_name)
-			
-			# Only add structures that match our filter type
-			if structure is Structure and structure.type == filter_type:
-					_structures.append(structure)
+	if OS.has_feature("web"):
+		# For web builds, use the hardcoded list
+		var structure_paths = [
+			"res://structures/building-garage.tres",
+			"res://structures/building-small-a.tres",
+			"res://structures/building-small-b.tres",
+			"res://structures/building-small-c.tres",
+			"res://structures/grass.tres",
+			"res://structures/grass-trees.tres",
+			"res://structures/grass-trees-tall.tres",
+			"res://structures/pavement.tres",
+			"res://structures/pavement-fountain.tres",
+			"res://structures/power-plant.tres",
+			"res://structures/road-corner.tres",
+			"res://structures/road-intersection.tres",
+			"res://structures/road-split.tres",
+			"res://structures/road-straight.tres",
+			"res://structures/road-straight-lightposts.tres",
+			"res://structures/store.tres"
+		]
 		
-		file_name = dir.get_next()
+		for path in structure_paths:
+			if ResourceLoader.exists(path):
+				var structure = load(path)
+				if structure is Structure and structure.type == filter_type:
+					_structures.append(structure)
+	else:
+		# For desktop builds, scan the directory
+		var dir = DirAccess.open("res://structures")
+		if not dir:
+			push_error("Failed to access the structures directory")
+			return
+		
+		dir.list_dir_begin()
+		var file_name = dir.get_next()
+		
+		while file_name != "":
+			if not dir.current_is_dir() and file_name.ends_with(".tres"):
+				var structure = load("res://structures/" + file_name)
+				if structure is Structure and structure.type == filter_type:
+					_structures.append(structure)
+			file_name = dir.get_next()
 	
 	# Sort structures by size category first (small to large), then by title
 	_structures.sort_custom(func(a, b): 
