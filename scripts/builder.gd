@@ -714,8 +714,8 @@ func _add_power_plant(position: Vector3, structure_index: int):
 	
 	# Apply position offset to center the model (matching the preview)
 	# These offsets need to be transformed based on the current rotation
-	var offset = selector.basis * Vector3(-3, 0, 3)
-	transform.origin += offset
+	#var offset = selector.basis * Vector3(-3, 0, 3)
+	#transform.origin += offset
 	
 	# Apply the complete transform in one go
 	power_plant_model.transform = transform
